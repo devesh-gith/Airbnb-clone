@@ -7,12 +7,15 @@ import {
   UserCircleIcon,
   UserIcon,
 } from "@heroicons/react/solid";
+import { FaSun, FaMoon } from "react-icons/fa";
 import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { DateRangePicker } from "react-date-range";
 import { useRouter } from "next/router";
+import { IconButton, useColorMode, useColorModeValue } from "@chakra-ui/react";
 
 function Header({ placeHolder }) {
+  const { toggleColorMode } = useColorMode();
   const [inputFil, setInputFil] = useState("");
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
@@ -39,17 +42,17 @@ function Header({ placeHolder }) {
       pathname: "/search",
       query: {
         location: inputFil,
-        startDate: startDate.toISOString().split('T')[0],
-        endDate: endDate.toISOString().split('T')[0],
+        startDate: startDate.toISOString().split("T")[0],
+        endDate: endDate.toISOString().split("T")[0],
         countGuests,
       },
     });
-
+    setInputFil("");
   };
   return (
     <header className="sticky bg-white shadow-md p-2 grid grid-cols-3  z-50 mt-0">
       {/* left */}
-      <div className="relative flex items-center cursor-pointer h-8  my-auto">
+      <div className="relative flex items-center cursor-pointer h-8  my-auto ">
         <Image
           onClick={() => router.push("/")}
           src="https://links.papareact.com/qd3"
@@ -60,13 +63,17 @@ function Header({ placeHolder }) {
       </div>
 
       {/* center */}
-      <div className="flex items-center space-x-2 md:border-2 rounded-full p-1 shadow-sm">
+      <div className="flex  items-center space-x-2 md:border-2 rounded-full p-1 shadow-sm ">
         <input
           value={inputFil}
           onChange={(e) => setInputFil(e.target.value)}
           type="text"
           placeholder={placeHolder || "Start the search"}
-          className="outline-none flex-grow ml-5 text-gray-600"
+          className={
+            placeHolder
+              ? "text-xs outline-none  flex-grow ml-5 text-gray-600 overflow-hidden "
+              : "text-xs outline-none  flex-grow ml-5 text-gray-600 overflow-hidden "
+          }
         />
         <SearchIcon className="hidden md:inline-flex h-8 bg-red-500 rounded-full p-2 text-white  cursor-pointer" />
       </div>
@@ -74,12 +81,18 @@ function Header({ placeHolder }) {
       {/* right */}
       <div className="flex items-center justify-end space-x-3 text-gray-500 cursor-pointer">
         <p className="hidden md:inline text-sm font-bold">Become a host</p>
-        <GlobeAltIcon className="h-5" />
+        <GlobeAltIcon className="hidden md:inline-flex h-5" />
 
         <div className="flex items-center border-2 rounded-full shadow-sm p-1  hover:shadow-lg">
           <MenuIcon className="h-5" />
           <UserCircleIcon className="h-5" />
         </div>
+        <IconButton
+          variant="ghost"
+          icon={useColorModeValue(<FaSun />, <FaMoon />)}
+          onClick={toggleColorMode}
+          aria-label="toggle-dark-mode"
+        />
       </div>
       {inputFil && (
         <div className="flex flex-col col-span-3 mx-auto">

@@ -4,6 +4,7 @@ import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import InfoCard from "../components/InfoCard";
+import Map from "../components/Map";
 
 function search({ searchPlace }) {
   console.log(searchPlace);
@@ -13,9 +14,14 @@ function search({ searchPlace }) {
   console.log(formatterStartDate);
   const formatterEnDate = format(new Date(endDate), "dd MMMM yy");
   const ranges = `${formatterStartDate} - ${formatterEnDate}`;
+
   return (
     <div className="">
-      <Header placeHolder={`${location} | ${ranges} | ${countGuests}`} />
+      <div className="">
+        <Header
+          placeHolder={`${location} | ${ranges} | ${countGuests} Guests`}
+        />
+      </div>
       <main className="flex flex-col">
         <section className="flex p-3">
           <div className=" space-y-3">
@@ -48,6 +54,10 @@ function search({ searchPlace }) {
           )}
         </div>
       </main>
+
+      <section className="hidden lg:inline-flex lg:min-w-[600px]">
+        <Map />
+      </section>
       <Footer />
     </div>
   );
